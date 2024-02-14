@@ -1,0 +1,54 @@
+client:
+  name: basic
+  file-system: device-agnostic
+tools: {}
+targets:
+  "CWinRT-debug.dylib": ["<CWinRT-debug.dylib>"]
+  "CWinRT-debug.module": ["<CWinRT-debug.module>"]
+  "PackageStructure": ["<PackageStructure>"]
+  "main": ["<CWinRT-debug.dylib>","<CWinRT-debug.module>"]
+  "test": ["<CWinRT-debug.dylib>","<CWinRT-debug.module>"]
+default: "main"
+nodes:
+  "C:\\dev\\browser\\swift-cwinrt\\Sources\\CWinRT/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+commands:
+  "<CWinRT-debug.dylib>":
+    tool: phony
+    inputs: ["C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.dll"]
+    outputs: ["<CWinRT-debug.dylib>"]
+
+  "<CWinRT-debug.module>":
+    tool: phony
+    inputs: ["C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.build\\shim.c.o"]
+    outputs: ["<CWinRT-debug.module>"]
+
+  "C.CWinRT-debug.dylib":
+    tool: shell
+    inputs: ["C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.build\\shim.c.o","C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.product\\Objects.LinkFileList"]
+    outputs: ["C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.dll"]
+    description: "Linking C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.dll"
+    args: ["C:\\Users\\skirb\\AppData\\Local\\Programs\\Swift\\Toolchains\\0.0.0+Asserts\\usr\\bin\\swiftc.exe","-L","C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug","-o","C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.dll","-module-name","CWinRT","-emit-library","@C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.product\\Objects.LinkFileList","-runtime-compatibility-version","none","-target","x86_64-unknown-windows-msvc","-nostartfiles","-sdk","C:\\Users\\skirb\\AppData\\Local\\Programs\\Swift\\Platforms\\0.0.0\\Windows.platform\\Developer\\SDKs\\Windows.sdk","-libc","MD","-I","C:\\Users\\skirb\\AppData\\Local\\Programs\\Swift\\Platforms\\0.0.0\\Windows.platform\\Developer\\Library\\XCTest-development\\usr\\lib\\swift\\windows","-I","C:\\Users\\skirb\\AppData\\Local\\Programs\\Swift\\Platforms\\0.0.0\\Windows.platform\\Developer\\Library\\XCTest-development\\usr\\lib\\swift\\windows\\x86_64","-L","C:\\Users\\skirb\\AppData\\Local\\Programs\\Swift\\Platforms\\0.0.0\\Windows.platform\\Developer\\Library\\XCTest-development\\usr\\lib\\swift\\windows\\x86_64","-use-ld=lld","-g","-use-ld=lld","-Xlinker","-debug:dwarf","-Xlinker","-debug:dwarf"]
+
+  "C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.build\\shim.c.o":
+    tool: clang
+    inputs: ["C:\\dev\\browser\\swift-cwinrt\\Sources\\CWinRT\\shim.c"]
+    outputs: ["C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.build\\shim.c.o"]
+    description: "Compiling CWinRT shim.c"
+    args: ["C:\\Users\\skirb\\AppData\\Local\\Programs\\Swift\\Toolchains\\0.0.0+Asserts\\usr\\bin\\clang.exe","-target","x86_64-unknown-windows-msvc","-O0","-DSWIFT_PACKAGE=1","-DDEBUG=1","-fblocks","-I","C:\\dev\\browser\\swift-cwinrt\\Sources\\CWinRT\\include","-D_MT","-D_DLL","-Xclang","--dependent-lib=msvcrt","-gdwarf","-MD","-MT","dependencies","-MF","C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.build\\shim.c.d","-c","C:\\dev\\browser\\swift-cwinrt\\Sources\\CWinRT\\shim.c","-o","C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.build\\shim.c.o"]
+    deps: "C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.build\\shim.c.d"
+
+  "C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.product\\Objects.LinkFileList":
+    tool: write-auxiliary-file
+    inputs: ["<link-file-list>","C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.build\\shim.c.o"]
+    outputs: ["C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.product\\Objects.LinkFileList"]
+    description: "Write auxiliary file C:\\dev\\browser\\swift-cwinrt\\.build\\x86_64-unknown-windows-msvc\\debug\\CWinRT.product\\Objects.LinkFileList"
+
+  "PackageStructure":
+    tool: package-structure-tool
+    inputs: ["C:\\dev\\browser\\swift-cwinrt\\Sources\\CWinRT/","C:\\dev\\browser\\swift-cwinrt\\Package.swift","C:\\dev\\browser\\swift-cwinrt\\Package.resolved"]
+    outputs: ["<PackageStructure>"]
+    description: "Planning build"
+    allow-missing-inputs: true
+
