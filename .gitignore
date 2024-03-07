@@ -51,6 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+.build
 .packages
 .generated
 swift-winrt.rsp
